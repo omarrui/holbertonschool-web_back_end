@@ -1,6 +1,18 @@
 #!/usr/bin/env python3
-"""func that turns a flaot into aa str"""
+"""
+This module provides a function that takes a float as argument and
+returns the floor of the float as an integer.
+"""
 
-def to_str(n: float) -> str:
-    '''return the str rep of a flaot'''
-    return str(n)
+
+def floor(n: float) -> int:
+    """
+    Returns the floor of the given float as an integer.
+
+    Args:
+        n (float): The float to floor.
+
+    Returns:
+        int: The floored integer value.
+    """
+    return int(n)

@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
-"""def variables with type annotations"""
+"""
+def variables with type annotations
+"""
 
 a:int = 1
 pi: float = 3.14
