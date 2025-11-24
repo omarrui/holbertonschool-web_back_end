@@ -1,18 +1,18 @@
 #!/usr/bin/env python3
 """
 This module provides a function that takes a float as argument and
-returns the floor of the float as an integer.
+returns the string representation of the float.
 """
 
 
-def floor(n: float) -> int:
+def to_str(n: float) -> str:
     """
-    Returns the floor of the given float as an integer.
+    Returns the string representation of a float.
 
     Args:
-        n (float): The float to floor.
+        n (float): The float to convert.
 
     Returns:
-        int: The floored integer value.
+        str: The string representation of the float.
     """
-    return int(n)
+    return str(n)
