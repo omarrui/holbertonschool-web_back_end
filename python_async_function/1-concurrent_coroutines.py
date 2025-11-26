@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """
 This module defines an asynchronous coroutine that spawns multiple
-wait_random coroutines concurrently and returns their delays in ascending order.
+wait_random coroutines concurrently and returns
+their delays in ascending order.
 """
 
 import asyncio
@@ -31,4 +32,3 @@ async def wait_n(n: int, max_delay: int) -> List[float]:
         result = await task
         completed.append(result)
     return completed
-    
