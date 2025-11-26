@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
-"""Async coroutine that waits for a random delay."""
+"""
+Async coroutine that waits for a random delay.
+"""
 
 import asyncio
 import random
