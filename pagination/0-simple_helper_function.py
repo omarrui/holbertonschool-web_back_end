@@ -1,4 +1,11 @@
 #!/usr/bin/env python3
+"""
+Pagination helper function module.
+""" 
+
+from typing import Tuple
+
+
 def index_range(page, page_size):
     """
     a functiont that takes two variables for the index range
