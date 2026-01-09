@@ -1,63 +1,38 @@
-// Import the fs (file system) module - built into Node.js
-const fs = require('fs');
+const fs = require('fs').promises;
 
-// Define the countStudents function that takes a file path as argument
-// This function returns a Promise
-function countStudents(path) {
-  // Return a new Promise - it represents a future value (file content)
-  return new Promise((resolve, reject) => {
-    // Read the file asynchronously (non-blocking)
-    // This doesn't wait - it continues to next line immediately
-    fs.readFile(path, 'utf-8', (error, data) => {
-      // This callback runs LATER when the file is read (or fails)
-      
-      // If there was an error (file not found, etc.), reject the promise
-      if (error) {
-        reject(new Error('Cannot load the database'));
-        return; // Stop execution here
+async function countStudents(path) {
+  try {
+    const data = await fs.readFile(path, 'utf8');
+    const lines = data.split('\n').filter((line) => line.trim() !== '');
+    if (lines.length <= 1) {
+      return 'Number of students: 0';
+    }
+
+    const students = lines.slice(1)
+      .map((line) => line.split(','))
+      .filter((arr) => arr.length === 4);
+
+    const total = students.length;
+    const fields = {};
+
+    for (const student of students) {
+      const field = student[3];
+      const firstname = student[0];
+      if (!fields[field]) {
+        fields[field] = [];
       }
+      fields[field].push(firstname);
+    }
 
-      // Split the file content by newlines to get an array of lines
-      const lines = data.split('\n');
+    let output = `\nNumber of students: ${total}`;
+    for (const [field, names] of Object.entries(fields)) {
+      output += `\nNumber of students in ${field}: ${names.length}. List: ${names.join(', ')}`;
+    }
 
-      // Filter out empty lines and remove the header (first line)
-      // trim() removes whitespace, so empty lines become '' and are filtered out
-      const students = lines.slice(1).filter((line) => line.trim() !== '');
-
-      // Log the total number of students
-      console.log(`Number of students: ${students.length}`);
-
-      // Create an object to group students by their field (CS, SWE, etc.)
-      const fields = {};
-
-      // Loop through each student line
-      students.forEach((line) => {
-        // Split the line by commas to get individual values
-        // Example: "Johann,Kerbrou,30,CS" becomes ["Johann", "Kerbrou", "30", "CS"]
-        const [firstname, , , field] = line.split(',');
-
-        // If this field doesn't exist in our object yet, create an empty array
-        if (!fields[field]) {
-          fields[field] = [];
-        }
-
-        // Add the student's firstname to the array for their field
-        fields[field].push(firstname);
-      });
-
-      // Loop through each field and log the count and list of students
-      for (const field in fields) {
-        // Get the array of names for this field
-        const names = fields[field];
-        // Log: "Number of students in CS: 6. List: Johann, Arielle, ..."
-        console.log(`Number of students in ${field}: ${names.length}. List: ${names.join(', ')}`);
-      }
-
-      // Resolve the promise (success!) - we're done
-      resolve();
-    });
-  });
+    return output;
+  } catch (err) {
+    throw new Error('\nCannot load the database');
+  }
 }
 
-// Export the function so other files can use it
 module.exports = countStudents;
